@@ -82,7 +82,7 @@ public class UpdateDateServiceImpl implements UpdateDateService {
             if(user.getBranchNo().equals("全部")){
                 cashier.add("All");
             }else {
-                cashier.add(user.getBranchNo());
+                cashier.add(user.getBranchNo().substring(0,3));
             }
             cashiers.add(cashier);
         }
@@ -170,7 +170,7 @@ public class UpdateDateServiceImpl implements UpdateDateService {
             visaFlow.add(tVisaFlow.getFlowId().toString());
             visaFlow.add(tVisaFlow.getConsumAmt().doubleValue());
             visaFlow.add(simpleDateFormat.format(tVisaFlow.getOpeDate()));
-            visaFlow.add(tVisaFlow.getBranchNo());
+            visaFlow.add(tVisaFlow.getBranchNo().substring(0,3));
             tVisaFlows.add(visaFlow);
         }
         return JSONObject.toJSONString(tVisaFlows);
@@ -202,7 +202,7 @@ public class UpdateDateServiceImpl implements UpdateDateService {
             }
             posSale.add(tPosSale.getOperId());
             posSale.add(tPosSale.getSellWay());
-            posSale.add(tPosSale.getBranchNo());
+            posSale.add(tPosSale.getBranchNo().substring(0,3));
             saleDetailDate = tPosSale.getOperDate();
             posSales.add(posSale);
         }
@@ -219,7 +219,7 @@ public class UpdateDateServiceImpl implements UpdateDateService {
             vipFlow.add(tVipFlow.getCardNo());
             vipFlow.add(tVipFlow.getConsumAmt().doubleValue());
             vipFlow.add(simpleDateFormat.format(tVipFlow.getOpeDate()));
-            vipFlow.add(tVipFlow.getBranchNo());
+            vipFlow.add(tVipFlow.getBranchNo().substring(0,3));
             tVipFlows.add(vipFlow);
         }
         return JSONObject.toJSONString(tVipFlows);
@@ -235,7 +235,7 @@ public class UpdateDateServiceImpl implements UpdateDateService {
             vipInfo.add(tVipInfo.getVipName());
             vipInfo.add(tVipInfo.getMobile());
             vipInfo.add(simpleDateFormat.format(tVipInfo.getOperDateGi()));
-            vipInfo.add(tVipInfo.getBranchNo());
+            vipInfo.add(tVipInfo.getBranchNo().substring(0,3));
             tvipInfos.add(vipInfo);
         }
         return JSONObject.toJSONString(tvipInfos);
@@ -277,7 +277,7 @@ public class UpdateDateServiceImpl implements UpdateDateService {
             stock.add(titemStock.getItemNo());
             stock.add(titemStock.getStockQty().floatValue());
             stock.add(titemStock.getAvgCost().floatValue());
-            stock.add(titemStock.getBranchNo());
+            stock.add(titemStock.getBranchNo().substring(0,3));
             stocks.add(stock);
         }
         return JSONObject.toJSONString(stocks);
@@ -299,7 +299,7 @@ public class UpdateDateServiceImpl implements UpdateDateService {
             tOrderDetail.add(detail.getPayAmount().doubleValue());
             tOrderDetail.add(detail.getCardId());
             tOrderDetail.add(detail.getCardNo());
-            tOrderDetail.add(detail.getBranchNo());
+            tOrderDetail.add(detail.getBranchNo().substring(0,3));
             tOrderDetails.add(tOrderDetail);
         }
         return JSONObject.toJSONString(tOrderDetails);
@@ -310,12 +310,14 @@ public class UpdateDateServiceImpl implements UpdateDateService {
         List<TBdBranchInfo> branchfos = tBdBranchInfoMapper.selectBranchInfos();
         JSONArray tBranchfos = new JSONArray();
         for (TBdBranchInfo tBranchfo : branchfos) {
-            JSONArray branchinfo = new JSONArray();
-            branchinfo.add(tBranchfo.getBranchName());
-            branchinfo.add(tBranchfo.getBranchMan());
-            branchinfo.add(tBranchfo.getAddress());
-            branchinfo.add(tBranchfo.getBranchNo());
-            tBranchfos.add(branchinfo);
+            if(tBranchfo.getBranchNo().length() <= 3) {
+                JSONArray branchinfo = new JSONArray();
+                branchinfo.add(tBranchfo.getBranchName());
+                branchinfo.add(tBranchfo.getBranchMan());
+                branchinfo.add(tBranchfo.getAddress());
+                branchinfo.add(tBranchfo.getBranchNo());
+                tBranchfos.add(branchinfo);
+            }
         }
         return JSONObject.toJSONString(tBranchfos);
     }
